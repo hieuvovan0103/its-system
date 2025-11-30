@@ -1,31 +1,25 @@
 package com.example.content_management_service.domain.entity;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "learning_contents")
+@Table(name = "courses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LearningContent {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
+    private String description;
 
-    @Enumerated(EnumType.STRING)
-    private ContentType type;
-
-    private String url;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    @JsonIgnore
-    private Course course;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LearningContent> contents;
 }

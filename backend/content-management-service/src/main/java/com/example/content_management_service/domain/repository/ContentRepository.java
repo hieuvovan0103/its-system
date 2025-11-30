@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ContentRepository extends JpaRepository<LearningContent, Long> {
-    // SELECT * FROM learning_contents WHERE topic = ?
-    List<LearningContent> findByTopic(String topic);
+    List<LearningContent> findByCourseId(Long courseId);
 }

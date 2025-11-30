@@ -7,7 +7,7 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.42/8365263844ebb62398e0dc33057ba10ba472d3b8/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="content-management-service.main" />
+        <module name="auth_service.main" />
       </profile>
     </annotationProcessing>
   </component>
@@ -19,6 +19,9 @@
       <module name="assessment-service" options="-parameters" />
       <module name="assessment-service.main" options="-parameters" />
       <module name="assessment-service.test" options="-parameters" />
+      <module name="auth_service" options="-parameters" />
+      <module name="auth_service.main" options="-parameters" />
+      <module name="auth_service.test" options="-parameters" />
       <module name="content-management-service" options="-parameters" />
       <module name="content-management-service.main" options="-parameters" />
       <module name="content-management-service.test" options="-parameters" />

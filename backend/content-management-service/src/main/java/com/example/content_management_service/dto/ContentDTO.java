@@ -9,6 +9,8 @@ public class ContentDTO {
     private String title;
     private ContentType type;
     private String url;
-    private String topic;
-    private String description;
+    private Long courseId;
+    private String courseName;
+
+
 }

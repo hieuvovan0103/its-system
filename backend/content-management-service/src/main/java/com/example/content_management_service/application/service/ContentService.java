@@ -6,7 +6,7 @@ import java.util.List;
 public interface ContentService {
     ContentDTO createContent(ContentDTO dto);
     List<ContentDTO> getAllContents();
-    List<ContentDTO> getContentsByTopic(String topic);
+    List<ContentDTO> getContentBy(String topic);
     ContentDTO updateContent(Long id, ContentDTO dto);
     void deleteContent(Long id);
 }
