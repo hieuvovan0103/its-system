@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useAuth } from '@/contexts/AuthContext';
-import type { LoginRequest } from '@/types';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useAuth } from "@/contexts/AuthContext";
+import type { LoginRequest } from "@/types";
 import {
   BookOpen,
   AlertCircle,
@@ -11,13 +11,13 @@ import {
   GraduationCap,
   Users,
   BarChart3,
-  CheckCircle2
-} from 'lucide-react';
+  CheckCircle2,
+} from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,31 +31,31 @@ export default function Login() {
   const onSubmit = async (data: LoginRequest) => {
     try {
       setIsLoading(true);
-      setError('');
+      setError("");
       await login(data);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fillDemoCredentials = (role: 'admin' | 'instructor' | 'student') => {
+  const fillDemoCredentials = (role: "admin" | "instructor" | "student") => {
     const credentials = {
-      admin: 'admin@its.edu',
-      instructor: 'instructor@its.edu',
-      student: 'student@its.edu',
+      admin: "admin@its.edu",
+      instructor: "instructor@its.edu",
+      student: "student@its.edu",
     };
-    setValue('email', credentials[role]);
-    setValue('password', 'password123');
+    setValue("email", credentials[role]);
+    setValue("password", "password123");
   };
 
   const features = [
-    { icon: GraduationCap, text: 'Personalized Learning Paths' },
-    { icon: BarChart3, text: 'Real-time Progress Tracking' },
-    { icon: Users, text: 'Collaborative Learning' },
-    { icon: CheckCircle2, text: 'Smart Assessments' },
+    { icon: GraduationCap, text: "Personalized Learning Paths" },
+    { icon: BarChart3, text: "Real-time Progress Tracking" },
+    { icon: Users, text: "Collaborative Learning" },
+    { icon: CheckCircle2, text: "Smart Assessments" },
   ];
 
   return (
@@ -90,8 +90,8 @@ export default function Login() {
                 <span className="text-white/80">System</span>
               </h1>
               <p className="text-lg text-white/70 max-w-sm leading-relaxed">
-                Empower your learning journey with AI-driven personalized education
-                and real-time feedback.
+                Empower your learning journey with AI-driven personalized
+                education and real-time feedback.
               </p>
             </div>
 
@@ -133,7 +133,9 @@ export default function Login() {
           {/* Welcome Text */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Welcome back!</h2>
-            <p className="text-gray-500 mt-2">Please enter your credentials to continue</p>
+            <p className="text-gray-500 mt-2">
+              Please enter your credentials to continue
+            </p>
           </div>
 
           {/* Error Message */}
@@ -147,15 +149,18 @@ export default function Login() {
           {/* Login Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <input
-                {...register('email', {
-                  required: 'Email is required',
+                {...register("email", {
+                  required: "Email is required",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address',
+                    message: "Invalid email address",
                   },
                 })}
                 type="email"
@@ -173,19 +178,22 @@ export default function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
                 <input
-                  {...register('password', {
-                    required: 'Password is required',
+                  {...register("password", {
+                    required: "Password is required",
                     minLength: {
                       value: 6,
-                      message: 'Password must be at least 6 characters',
+                      message: "Password must be at least 6 characters",
                     },
                   })}
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="off"
                   className="w-full px-4 pr-12 py-3.5 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none text-gray-900 placeholder:text-gray-400"
@@ -196,7 +204,11 @@ export default function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.password && (
@@ -218,14 +230,14 @@ export default function Login() {
                   Signing in...
                 </>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-500">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link
                 to="/register"
                 className="text-indigo-600 hover:text-indigo-700 font-semibold hover:underline"
@@ -244,21 +256,21 @@ export default function Login() {
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
-                onClick={() => fillDemoCredentials('admin')}
+                onClick={() => fillDemoCredentials("admin")}
                 className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-red-50 to-orange-50 text-red-700 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all border border-red-100"
               >
                 Admin
               </button>
               <button
                 type="button"
-                onClick={() => fillDemoCredentials('instructor')}
+                onClick={() => fillDemoCredentials("instructor")}
                 className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 rounded-lg hover:from-blue-100 hover:to-cyan-100 transition-all border border-blue-100"
               >
                 Instructor
               </button>
               <button
                 type="button"
-                onClick={() => fillDemoCredentials('student')}
+                onClick={() => fillDemoCredentials("student")}
                 className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-all border border-green-100"
               >
                 Student

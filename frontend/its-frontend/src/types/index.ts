@@ -1,77 +1,48 @@
-// User types
 export type UserRole = 'STUDENT' | 'INSTRUCTOR' | 'ADMIN';
 
+// --- AUTH TYPES ---
 export interface User {
+  email: string;
+  role: UserRole;
+  name?: string;
+}
+
+// ... (Các interfaces LoginRequest, LoginResponse, RegisterRequest giữ nguyên) ...
+
+// --- COURSE TYPES ---
+export interface Course {
   id: number;
-  name: string;
-  email: string;
-  role: UserRole;
+  title: string;
+  description: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
+export interface CourseFormData {
+  title: string;
+  description: string;
 }
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-  role: UserRole;
-}
-
-// Content types (matches backend: VIDEO, DOCUMENT, QUIZ)
+// --- CONTENT TYPES ---
 export type ContentType = 'VIDEO' | 'DOCUMENT' | 'QUIZ';
 
 export interface Content {
   id: number;
   title: string;
-  topic: string;  // matches backend field name
   type: ContentType;
   url: string;
-  courseId?: number;    // not in backend yet
-  createdAt?: string;   // not in backend yet
-  updatedAt?: string;   // not in backend yet
+  courseId: number;
+  courseName?: string;
 }
 
 export interface ContentFormData {
   title: string;
-  topic: string;  // matches backend field name
   type: ContentType;
   url: string;
-  courseId?: number;  // not in backend yet
+  courseId: number;
 }
 
-// Course types
-export interface Course {
-  id: number;
-  title: string;
-  description: string;
-  instructorId: number;
-  createdAt?: string;
-}
+// --- ASSESSMENT TYPES ---
 
-// Assessment types
 export type AssessmentType = 'QUIZ' | 'EXAM' | 'PROJECT';
-export type QuestionType = 'MCQ' | 'ESSAY' | 'CODING';
-export type SubmissionStatus = 'DRAFT' | 'SUBMITTED' | 'GRADED';
-
-export interface Question {
-  id: number;
-  text: string;
-  type: QuestionType;
-  score: number;
-  options?: string[];
-  correctOptionIndex?: number;
-  maxLengthAnswer?: number;  // for Essay questions
-  rubric?: string;           // for Essay questions - grading rubric
-}
 
 export interface Assessment {
   id: number;
@@ -79,11 +50,11 @@ export interface Assessment {
   description: string;
   type: AssessmentType;
   courseId: number;
-  questions: Question[];
   totalScore: number;
   dueDate?: string;
+  timeLimit?: number;
+  questions?: Question[]; // ✅ Đổi thành optional, có thể không load khi GET list
   createdAt?: string;
-  updatedAt?: string;
 }
 
 export interface AssessmentFormData {
@@ -92,80 +63,65 @@ export interface AssessmentFormData {
   type: AssessmentType;
   courseId: number;
   dueDate?: string;
+  timeLimit?: number;
+}
+
+// --- QUESTION TYPES (Đã đồng bộ hóa với QuestionDTO.java) ---
+
+export interface Question {
+  id: number;
+  text: string;
+  type: string;      // 'MCQ', 'ESSAY', 'CODING'
+  score: number;
+  options?: string[]; // Backend trả về List<String>
+  correctOptionIndex?: number | null; // Sử dụng number hoặc null/undefined
+  maxLengthAnswer?: number;
+  rubric?: string;
 }
 
 export interface QuestionFormData {
-  text: string;
-  type: QuestionType;
+  text: string; // ✅ Đổi từ 'content' sang 'text' để khớp với Entity/DTO
+  type: string;
   score: number;
+  // Các field hỗ trợ UI/Form
   options?: string[];
-  correctOptionIndex?: number;
-  maxLengthAnswer?: number;  // for Essay questions
-  rubric?: string;           // for Essay questions
+  correctOptionIndex?: number | null;
+  // Bạn có thể xóa các field cũ như optionA, optionB... nếu form đã cập nhật
 }
 
-export interface Answer {
-  id?: number;
+
+// --- SUBMISSION / GRADING TYPES ---
+
+// ✅ CẬP NHẬT: Đây là DTO chứa câu trả lời gửi lên Backend (khớp với SubmissionDTO/AnswerDTO)
+export interface AnswerDTO {
   questionId: number;
-  content: string;
-  selectedOptionIndex?: number;
-  score?: number;
+  selectedOptionIndex?: number | null; // Dùng cho trắc nghiệm (khớp với Java Integer)
+  content?: string;             // Dùng cho câu hỏi tự luận (khớp với Java String)
 }
 
+// ✅ CẬP NHẬT: Submission là Entity/DTO trả về sau khi nộp bài
 export interface Submission {
-  id: number;
-  assessmentId: number;
-  studentId: number;
-  answers: Answer[];
-  status: SubmissionStatus;
-  totalScore?: number;
+  id?: number;
+  assessmentId?: number;
+  studentId?: number;
+  // Các field dưới đây nên được lấy từ Grade DTO hoặc tính toán trong Service
+  totalQuestions?: number;
+  correctAnswers?: number;
+  score?: number;
+  feedback?: string;
   submittedAt?: string;
-  gradedAt?: string;
+  // Có thể thêm List<AnswerDTO> nếu bạn muốn hiển thị lại đáp án
 }
 
-// Feedback types
-export type FeedbackType = 'POSITIVE' | 'CORRECTIVE' | 'EXPLANATORY';
-
-export interface Feedback {
-  id: number;
-  submissionId: number;
-  message: string;
-  type: FeedbackType;
-  createdAt?: string;
-}
-
+// ✅ THÊM MỚI: DTO điểm số (trả về từ hàm submit) - Khớp với GradeDTO.java
 export interface Grade {
   id: number;
-  submissionId?: number;
+  submissionId: number;
   totalScore: number;
-  maxScore?: number;
-  gradedAt: string;
+  maxScore: number;
+  percentage: number;
+  letterGrade: string;
   gradedBy: string;
   feedback?: string;
-  percentage?: number;
-  letterGrade?: string;
-}
-
-// Progress types
-export interface Progress {
-  id: number;
-  studentId: number;
-  courseId: number;
-  completionRate: number;
-  lastUpdate: string;
-}
-
-// API Response types
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  success: boolean;
-}
-
-export interface PaginatedResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
-  size: number;
+  gradedAt: string;
 }

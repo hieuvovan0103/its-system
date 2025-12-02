@@ -24,58 +24,44 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    // --- XỬ LÝ ĐĂNG KÝ ---
+    // --- ĐĂNG KÝ ---
     public String register(RegisterRequest request) {
-        // 1. Kiểm tra trùng lặp
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Error: Username is already taken!");
-        }
-
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Error: Email is already in use!");
         }
 
-        // 2. Tạo Entity User
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-
-        // 3. Mã hóa mật khẩu (Bắt buộc)
+        user.setEmail(request.getEmail()); // Chỉ set Email
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        // 4. Xử lý Role (Chuyển String -> Enum)
         try {
-            // Mặc định là STUDENT nếu không gửi role
             String roleStr = request.getRole() == null ? "STUDENT" : request.getRole().toUpperCase();
             user.setRole(Role.valueOf(roleStr));
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Error: Role is invalid. Allowed: INSTRUCTOR, STUDENT");
+            throw new RuntimeException("Invalid Role");
         }
 
-        // 5. Lưu xuống DB
         userRepository.save(user);
         return "User registered successfully!";
     }
 
-    // --- XỬ LÝ ĐĂNG NHẬP ---
+    // --- ĐĂNG NHẬP ---
     public LoginResponse login(LoginRequest request) {
-        // 1. Xác thực qua Spring Security (So sánh password hash)
-        // Nếu sai pass, hàm này sẽ ném ra BadCredentialsException
+        // 1. Xác thực (Spring Security sẽ gọi loadUserByUsername ở bước 5)
+        // Chúng ta truyền Email vào vị trí của principal
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        // 2. Lưu thông tin vào SecurityContext (cho phiên làm việc hiện tại)
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 3. Lấy thông tin user từ DB để lấy Role chuẩn
-        User user = userRepository.findByUsername(request.getUsername())
+        // 2. Tìm user để lấy Role (Tìm bằng Email)
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 4. Sinh JWT Token (Dùng hàm trong JwtUtils)
-        String jwt = jwtUtils.generateToken(user.getUsername(), user.getRole().name());
+        // 3. Sinh Token (Subject của token bây giờ là Email)
+        String jwt = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
 
-        // 5. Trả về DTO
-        return new LoginResponse(jwt, "Bearer", user.getUsername(), user.getRole().name());
+        return new LoginResponse(jwt, "Bearer", user.getEmail(), user.getRole().name());
     }
 }

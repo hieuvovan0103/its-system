@@ -96,4 +96,9 @@ public class ContentServiceImpl { // Hoặc implements ContentService nếu bạ
         }
         return dto;
     }
+    public List<ContentDTO> getByCourseId(Long courseId) {
+        return contentRepository.findByCourseId(courseId).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 }

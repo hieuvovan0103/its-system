@@ -16,15 +16,23 @@ public class GatewayConfig {
     @Bean
     public RouterFunction<ServerResponse> gatewayRoutes() {
         return route("auth_service")
-                .route(path("/api/v1/auth/**"), http("http://localhost:8083"))
-                .build() // 1. Chấm dứt route này bằng build()
+                // Auth Service -> 8084
+                .route(path("/api/v1/auth/**"), http("http://localhost:8084"))
+                .build()
 
-                .and(route("content_service") // 2. Nối tiếp bằng .and()
-                        .route(path("/api/v1/contents/**"), http("http://localhost:8081"))
-                        .build()) // Chấm dứt route này
+                .and(route("content_service")
+                        // ✅ SỬA DÒNG NÀY: Content Service -> 8082 (Khớp file properties của bạn)
+                        .route(path("/api/v1/contents/**"), http("http://localhost:8082"))
+                        .build())
 
-                .and(route("assessment_service") // 3. Nối tiếp tiếp
-                        .route(path("/api/v1/assessments/**"), http("http://localhost:8082"))
-                        .build()); // Chấm dứt route cuối cùng
+                .and(route("course_service")
+                        // ✅ SỬA DÒNG NÀY: Course API cũng nằm trong Content Service -> 8082
+                        .route(path("/api/v1/courses/**"), http("http://localhost:8082"))
+                        .build())
+
+                .and(route("assessment_service")
+                        // Assessment Service -> 8081 (Để tránh trùng)
+                        .route(path("/api/v1/assessments/**"), http("http://localhost:8081"))
+                        .build());
     }
 }

@@ -1,91 +1,43 @@
-import type { Content, ContentFormData } from '@/types';
-import api from './api';
-
-// Mock data for demo (matches backend structure)
-let mockContents: Content[] = [
-  {
-    id: 1,
-    title: 'Introduction to Programming',
-    topic: 'Python Basics',
-    type: 'VIDEO',
-    url: 'https://example.com/video1',
-  },
-  {
-    id: 2,
-    title: 'Data Structures Guide',
-    topic: 'Data Structures',
-    type: 'DOCUMENT',
-    url: 'https://example.com/doc1',
-  },
-  {
-    id: 3,
-    title: 'Algorithm Practice Quiz',
-    topic: 'Algorithms',
-    type: 'QUIZ',
-    url: 'https://example.com/quiz1',
-  },
-];
+import type { Content, ContentFormData } from "@/types";
+import api from "./api";
 
 export const contentService = {
+  // Lấy tất cả content (nếu cần)
   async getAll(): Promise<Content[]> {
-    try {
-      const response = await api.get<Content[]>('/v1/contents');
-      return response.data;
-    } catch {
-      // Return mock data if API is not available
-      return mockContents;
-    }
+    const response = await api.get<Content[]>("/contents");
+    return response.data;
   },
 
+  // Lấy danh sách bài học theo Khóa học (Course)
+  // Backend API: GET /api/v1/contents/course/{courseId}
+  async getByCourse(courseId: number): Promise<Content[]> {
+    const response = await api.get<Content[]>(`/contents/course/${courseId}`);
+    return response.data;
+  },
+
+  // Lấy chi tiết 1 bài học
   async getById(id: number): Promise<Content> {
-    try {
-      const response = await api.get<Content>(`/v1/contents/${id}`);
-      return response.data;
-    } catch {
-      const content = mockContents.find(c => c.id === id);
-      if (!content) throw new Error('Content not found');
-      return content;
-    }
+    const response = await api.get<Content>(`/contents/${id}`);
+    return response.data;
   },
 
+  // Tạo mới bài học
+  // Backend API: POST /api/v1/contents
   async create(data: ContentFormData): Promise<Content> {
-    try {
-      const response = await api.post<Content>('/v1/contents', data);
-      return response.data;
-    } catch {
-      // Mock create
-      const newContent: Content = {
-        id: mockContents.length + 1,
-        ...data,
-      };
-      mockContents.push(newContent);
-      return newContent;
-    }
+    const response = await api.post<Content>("/contents", data);
+    return response.data;
   },
 
+  // Cập nhật bài học
+  // Backend API: PUT /api/v1/contents/{id}
   async update(id: number, data: ContentFormData): Promise<Content> {
-    try {
-      const response = await api.put<Content>(`/v1/contents/${id}`, data);
-      return response.data;
-    } catch {
-      // Mock update
-      const index = mockContents.findIndex(c => c.id === id);
-      if (index === -1) throw new Error('Content not found');
-      mockContents[index] = { ...mockContents[index], ...data };
-      return mockContents[index];
-    }
+    const response = await api.put<Content>(`/contents/${id}`, data);
+    return response.data;
   },
 
+  // Xóa bài học
+  // Backend API: DELETE /api/v1/contents/{id}
   async delete(id: number): Promise<void> {
-    try {
-      await api.delete(`/v1/contents/${id}`);
-    } catch {
-      // Mock delete
-      mockContents = mockContents.filter(c => c.id !== id);
-    }
+    await api.delete(`/contents/${id}`);
   },
-
-  // NOTE: getByCourse is not implemented in backend
-  // This function only works with mock data
-  // async getByCourse(courseId: number): Promise<Content[]> { ... }
 };

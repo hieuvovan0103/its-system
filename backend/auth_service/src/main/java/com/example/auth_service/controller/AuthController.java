@@ -27,12 +27,14 @@ public class AuthController {
 
     // POST: http://localhost:8083/api/v1/auth/login
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
             return ResponseEntity.ok(authService.login(request));
         } catch (Exception e) {
-            // Trả về 401 Unauthorized nếu sai mật khẩu
-            return ResponseEntity.status(401).body("Error: Invalid username or password");
+
+            e.printStackTrace();
+
+            return ResponseEntity.status(401).body("Đăng nhập thất bại: " + e.getMessage());
         }
     }
 }

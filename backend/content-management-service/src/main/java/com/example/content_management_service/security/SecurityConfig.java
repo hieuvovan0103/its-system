@@ -1,23 +1,19 @@
-package com.example.api_gateway.utils;
+package com.example.content_management_service.security;
 
-import com.example.api_gateway.utils.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration; // Import mới
-import org.springframework.web.cors.CorsConfigurationSource; // Import mới
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Import mới
-
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // 👈 Bắt buộc để dùng được @PreAuthorize("hasRole('INSTRUCTOR')")
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -26,15 +22,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // ✅ Chỉ cần dòng này, nó sẽ tự tìm Bean CorsFilter ở bước 1
-                .cors(org.springframework.security.config.Customizer.withDefaults())
-
-                .csrf(csrf -> csrf.disable()) // Tắt CSRF
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll() // Mở cửa Auth
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // 🔥 Mở cửa cho Preflight Request
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Tất cả các request khác đều cần đăng nhập
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
