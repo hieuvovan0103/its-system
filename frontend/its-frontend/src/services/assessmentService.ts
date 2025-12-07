@@ -54,24 +54,29 @@ export const assessmentService = {
   // 8. Xóa câu hỏi
   // DELETE /api/v1/assessments/questions/{questionId}
   async deleteQuestion(assessmentId: number, questionId: number): Promise<void> {
-    await api.delete(`/assessments/questions/${questionId}`);
+    // URL CHUẨN: /assessments/{assessmentId}/questions/{questionId}
+    await api.delete(`/assessments/${assessmentId}/questions/${questionId}`);
   },
 
   // 9. Nộp bài thi (Student)
   // POST /api/v1/assessments/{id}/submit
   async submitAssessment(assessmentId: number, answers: Answer[]): Promise<Submission> {
-    // Chuyển đổi mảng Answer [{questionId: 1, selectedOption: "A"}]
-    // sang dạng Map mà Backend SubmissionDTO yêu cầu: { "1": "A", "2": "B" }
-    const answersMap = answers.reduce((acc, curr) => {
-      // Giả sử Answer có trường selectedOption hoặc value chứa đáp án
-      acc[curr.questionId] = curr.selectedOption || '';
-      return acc;
-    }, {} as Record<number, string>);
+
+    // ✅ CHUYỂN ĐỔI: Chuyển Answer[] sang cấu trúc AnswerDTO[] mà Backend cần
+    const answersDTOs = answers.map(ans => ({
+      questionId: ans.questionId,
+      // Backend cần selectedOptionIndex (kiểu số) cho trắc nghiệm
+      selectedOptionIndex: ans.selectedOptionIndex !== undefined ? ans.selectedOptionIndex : null,
+      // Backend cần content (kiểu chuỗi) cho tự luận
+      content: ans.content || null
+    }));
 
     const payload = {
-      answers: answersMap
-    };
+      // ✅ Gửi một MẢNG (Array) các AnswerDTO
+      answers: answersDTOs
+    }
 
+    // Lưu ý: Cần chắc chắn bạn đã cập nhật interface Answer trong types.ts
     const response = await api.post<Submission>(`/assessments/${assessmentId}/submit`, payload);
     return response.data;
   },

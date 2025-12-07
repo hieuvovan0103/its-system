@@ -3,18 +3,23 @@ package com.example.assessment_service.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties; // Import cần thiết
 import java.time.LocalDateTime;
 
 /**
  * Grade entity - represents the final grade for a submission
- * Based on ITS Class Diagram
  */
 @Entity
 @Table(name = "grades")
-@Data
+@Getter
+@Setter
+//@ToString(exclude = {"submission"}) // ✅ SỬA: Loại trừ Submission khỏi toString()
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(exclude = {"submission"}) // ✅ ĐÃ CÓ: Loại trừ Submission khỏi hashCode/equals
+// ✅ SỬA LỖI JSON: Ngăn chặn lỗi đệ quy khi chuyển Grade thành JSON (nếu Submission cũng có Grade)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "submission"})
 public class Grade {
 
     @Id
@@ -37,10 +42,11 @@ public class Grade {
     @Column(columnDefinition = "TEXT")
     private String feedback;
 
+    // ✅ ĐÃ SỬA: Mặc dù @JsonIgnore có thể chặn, nên thêm @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "submission_id", nullable = false)
-    @JsonIgnore
-    @ToString.Exclude
+    @JsonIgnore // ✅ Giữ lại để ngăn chặn Serialization vòng lặp
+    @ToString.Exclude // ✅ Đảm bảo ngắt vòng lặp khi log
     private Submission submission;
 
     @PrePersist
@@ -55,6 +61,7 @@ public class Grade {
         if (maxScore == null || maxScore == 0) {
             return 0.0;
         }
+        // ✅ Sửa lỗi chia cho 0: maxScore == 0
         return (totalScore / maxScore) * 100;
     }
 

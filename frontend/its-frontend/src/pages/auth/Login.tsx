@@ -248,38 +248,38 @@ export default function Login() {
           </div>
 
           {/* Demo Credentials */}
-          <div className="mt-8 p-5 bg-white border-2 border-dashed border-gray-200 rounded-xl">
-            <p className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Quick Demo Access
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials("admin")}
-                className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-red-50 to-orange-50 text-red-700 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all border border-red-100"
-              >
-                Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials("instructor")}
-                className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 rounded-lg hover:from-blue-100 hover:to-cyan-100 transition-all border border-blue-100"
-              >
-                Instructor
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials("student")}
-                className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-all border border-green-100"
-              >
-                Student
-              </button>
-            </div>
-            <p className="text-xs text-gray-400 mt-3 text-center">
-              Click a role to auto-fill credentials
-            </p>
-          </div>
+          {/*<div className="mt-8 p-5 bg-white border-2 border-dashed border-gray-200 rounded-xl">*/}
+          {/*  <p className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">*/}
+          {/*    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />*/}
+          {/*    Quick Demo Access*/}
+          {/*  </p>*/}
+          {/*  <div className="grid grid-cols-3 gap-2">*/}
+          {/*    <button*/}
+          {/*      type="button"*/}
+          {/*      onClick={() => fillDemoCredentials("admin")}*/}
+          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-red-50 to-orange-50 text-red-700 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all border border-red-100"*/}
+          {/*    >*/}
+          {/*      Admin*/}
+          {/*    </button>*/}
+          {/*    <button*/}
+          {/*      type="button"*/}
+          {/*      onClick={() => fillDemoCredentials("instructor")}*/}
+          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 rounded-lg hover:from-blue-100 hover:to-cyan-100 transition-all border border-blue-100"*/}
+          {/*    >*/}
+          {/*      Instructor*/}
+          {/*    </button>*/}
+          {/*    <button*/}
+          {/*      type="button"*/}
+          {/*      onClick={() => fillDemoCredentials("student")}*/}
+          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-all border border-green-100"*/}
+          {/*    >*/}
+          {/*      Student*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*  <p className="text-xs text-gray-400 mt-3 text-center">*/}
+          {/*    Click a role to auto-fill credentials*/}
+          {/*  </p>*/}
+          {/*</div>*/}
         </div>
       </div>
     </div>
