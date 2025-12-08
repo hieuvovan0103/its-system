@@ -21,6 +21,9 @@ import AssessmentList from "@/pages/assessment/AssessmentList";
 import AssessmentDetail from "@/pages/assessment/AssessmentDetail";
 import TakeAssessment from "@/pages/assessment/TakeAssessment";
 
+// Report pages
+import InstructorReports from "@/pages/reports/InstructorReports";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -65,10 +68,7 @@ export default function App() {
                 path="students"
                 element={<PlaceholderPage title="Students" />}
               />
-              <Route
-                path="reports"
-                element={<PlaceholderPage title="Reports" />}
-              />
+              <Route path="reports" element={<InstructorReports />} />
             </Route>
 
             {/* Catch all */}
