@@ -40,11 +40,11 @@ public class Submission {
 
     @OneToMany(mappedBy = "submission", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    @ToString.Exclude // 💡 Tùy chọn: Loại trừ khỏi toString() để tránh lỗi khi in log
+    @ToString.Exclude 
     private List<Answer> answers = new ArrayList<>();
 
     @OneToOne(mappedBy = "submission", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude // 💡 Tùy chọn: Loại trừ khỏi toString()
+    @ToString.Exclude 
     private Grade grade;
 
     @PrePersist
@@ -55,19 +55,16 @@ public class Submission {
         }
     }
 
-    // Helper method to add answer
     public void addAnswer(Answer answer) {
         answers.add(answer);
         answer.setSubmission(this);
     }
 
-    // Submit the assessment
     public void submit() {
         this.status = SubmissionStatus.SUBMITTED;
         this.submittedAt = LocalDateTime.now();
     }
 
-    // Calculate total score from all answers
     public Double calculateTotalScore() {
         return answers.stream()
                 .filter(a -> a.getScore() != null)

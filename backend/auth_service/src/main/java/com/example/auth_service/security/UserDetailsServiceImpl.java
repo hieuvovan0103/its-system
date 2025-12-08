@@ -19,13 +19,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // 1. Tìm user bằng email
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        // 2. Map vào UserDetails của Spring
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail()) // 👈 TRICK: Gán Email vào chỗ Username của Spring
+                .withUsername(user.getEmail())
                 .password(user.getPassword())
                 .roles(user.getRole().name())
                 .build();

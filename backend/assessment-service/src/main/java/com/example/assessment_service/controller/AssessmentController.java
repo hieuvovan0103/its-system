@@ -7,8 +7,8 @@ import com.example.assessment_service.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication; // Import thêm để debug nếu cần
-import org.springframework.security.core.context.SecurityContextHolder; // Import thêm để debug nếu cần
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +22,6 @@ public class AssessmentController {
     private final IAssessmentService assessmentService;
     private final JwtUtils jwtUtils;
 
-    // ==================== PUBLIC / SHARED API ====================
-
-    // 1. Lấy danh sách đề thi
     @GetMapping
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
     public ResponseEntity<List<AssessmentDTO>> getAll() {
@@ -35,7 +32,6 @@ public class AssessmentController {
         return ResponseEntity.ok(dtos);
     }
 
-    // 2. Lấy chi tiết đề thi
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
     public ResponseEntity<AssessmentDTO> getById(@PathVariable Long id) {
@@ -43,9 +39,6 @@ public class AssessmentController {
         return ResponseEntity.ok(mapToAssessmentDTO(assessment));
     }
 
-    // ==================== INSTRUCTOR API ====================
-
-    // 3. Tạo đề thi mới
     @PostMapping
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<AssessmentDTO> create(@RequestBody AssessmentDTO dto) {
@@ -60,7 +53,6 @@ public class AssessmentController {
         return ResponseEntity.ok(mapToAssessmentDTO(saved));
     }
 
-    // 4. Cập nhật đề thi
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<AssessmentDTO> update(@PathVariable Long id, @RequestBody AssessmentDTO dto) {
@@ -75,7 +67,6 @@ public class AssessmentController {
         return ResponseEntity.ok(mapToAssessmentDTO(updated));
     }
 
-    // 5. Xóa đề thi
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -83,7 +74,6 @@ public class AssessmentController {
         return ResponseEntity.noContent().build();
     }
 
-    // 6. Thêm câu hỏi
     @PostMapping("/{id}/questions")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<QuestionDTO> addQuestion(@PathVariable Long id, @RequestBody QuestionDTO dto) {
@@ -101,7 +91,6 @@ public class AssessmentController {
         return ResponseEntity.ok(dto);
     }
 
-    // 7. Xóa câu hỏi
     @DeleteMapping("/{assessmentId}/questions/{questionId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long assessmentId, @PathVariable Long questionId) {
@@ -109,21 +98,11 @@ public class AssessmentController {
         return ResponseEntity.noContent().build();
     }
 
-    // ==================== STUDENT API ====================
-
-    // 8. Nộp bài thi
     @PostMapping("/{id}/submit")
-    //@PreAuthorize("hasRole('STUDENT')") // ✅ ĐÃ SỬA: Dùng hasRole để khớp với logic Filter mới
     public ResponseEntity<GradeDTO> submit(
             @PathVariable Long id,
             @RequestBody SubmissionDTO submissionDto,
             @RequestHeader("Authorization") String token) {
-
-        // --- DEBUG LOGGING START (Xóa sau khi chạy OK) ---
-        // Trong hàm submit()
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("✅ CONTROLLER PASSED SECURITY! User: " + auth.getName() + " | Auth: " + auth.getAuthorities());
-        // --- DEBUG LOGGING END ---
 
         Long studentId = 3L; // Hardcode test
 
@@ -151,8 +130,6 @@ public class AssessmentController {
 
         return ResponseEntity.ok(mapToGradeDTO(grade));
     }
-
-    // ==================== MAPPERS ====================
 
     private AssessmentDTO mapToAssessmentDTO(Assessment entity) {
         AssessmentDTO dto = new AssessmentDTO();

@@ -16,35 +16,30 @@ public class CourseController {
 
     private final CourseServiceImpl courseService;
 
-    // GET /api/v1/courses (Ai cũng xem được danh sách khóa học)
     @GetMapping
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
     public ResponseEntity<List<CourseDTO>> getAll() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
-    // GET /api/v1/courses/{id} (Xem chi tiết khóa học + bài học)
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
     public ResponseEntity<CourseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
-    // POST /api/v1/courses (Chỉ Giáo viên tạo khóa học)
     @PostMapping
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<CourseDTO> create(@RequestBody CourseDTO dto) {
         return ResponseEntity.ok(courseService.createCourse(dto));
     }
 
-    // PUT /api/v1/courses/{id} (Chỉ Giáo viên sửa)
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<CourseDTO> update(@PathVariable Long id, @RequestBody CourseDTO dto) {
         return ResponseEntity.ok(courseService.updateCourse(id, dto));
     }
 
-    // DELETE /api/v1/courses/{id} (Chỉ Giáo viên xóa)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

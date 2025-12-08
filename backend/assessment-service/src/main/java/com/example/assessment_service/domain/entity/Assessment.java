@@ -6,10 +6,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Assessment entity - represents a quiz, exam, or project
- * Based on ITS Class Diagram
- */
 @Entity
 @Table(name = "assessments")
 @Data

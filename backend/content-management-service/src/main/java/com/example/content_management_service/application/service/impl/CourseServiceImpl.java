@@ -17,24 +17,20 @@ public class CourseServiceImpl {
 
     private final CourseRepository courseRepository;
 
-    // --- 1. LẤY TẤT CẢ KHÓA HỌC ---
     public List<CourseDTO> getAllCourses() {
         return courseRepository.findAll().stream()
-                .map(this::mapToDTO) // Chỉ map thông tin cơ bản
+                .map(this::mapToDTO) 
                 .collect(Collectors.toList());
     }
 
-    // --- 2. LẤY CHI TIẾT KHÓA HỌC (Kèm danh sách Content) ---
-    @Transactional(readOnly = true) // Transaction để load Lazy list contents
+    @Transactional(readOnly = true)
     public CourseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
 
-        // Map sang DTO (bao gồm cả list contents)
         return mapToDTOWithContents(course);
     }
 
-    // --- 3. TẠO KHÓA HỌC MỚI ---
     public CourseDTO createCourse(CourseDTO dto) {
         Course entity = new Course();
         entity.setTitle(dto.getTitle());
@@ -44,7 +40,6 @@ public class CourseServiceImpl {
         return mapToDTO(saved);
     }
 
-    // --- 4. CẬP NHẬT KHÓA HỌC ---
     public CourseDTO updateCourse(Long id, CourseDTO dto) {
         Course current = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
@@ -55,13 +50,10 @@ public class CourseServiceImpl {
         return mapToDTO(courseRepository.save(current));
     }
 
-    // --- 5. XÓA KHÓA HỌC ---
     public void deleteCourse(Long id) {
-        // Lưu ý: Nếu trong Entity Course để CascadeType.ALL thì Content con sẽ bị xóa theo
         courseRepository.deleteById(id);
     }
 
-    // Helper: Map cơ bản (Không lấy list content để tránh nặng)
     private CourseDTO mapToDTO(Course entity) {
         CourseDTO dto = new CourseDTO();
         dto.setId(entity.getId());
@@ -69,12 +61,9 @@ public class CourseServiceImpl {
         dto.setDescription(entity.getDescription());
         return dto;
     }
-
-    // Helper: Map đầy đủ (Lấy cả list content)
     private CourseDTO mapToDTOWithContents(Course entity) {
         CourseDTO dto = mapToDTO(entity);
 
-        // Chuyển đổi List<Entity> -> List<DTO> cho content
         if (entity.getContents() != null) {
             List<ContentDTO> contentDTOs = entity.getContents().stream()
                     .map(content -> {

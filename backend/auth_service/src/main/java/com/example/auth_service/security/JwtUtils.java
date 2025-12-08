@@ -19,18 +19,16 @@ public class JwtUtils {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    // Hàm tạo Token (Dùng khi Login thành công)
     public String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role) // Lưu role vào token
+                .claim("role", role) 
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Hàm lấy Key chuẩn từ chuỗi bí mật
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }

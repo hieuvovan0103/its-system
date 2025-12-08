@@ -26,14 +26,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // 🔥 DEBUG 1: Xem Header có tới được đây không
         System.out.println("DEBUG FILTER: URL = " + request.getRequestURI());
         System.out.println("DEBUG FILTER: Header Authorization = " + authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
-            // 🔥 DEBUG 2: Thử validate token
             boolean isValid = jwtUtils.validateJwtToken(token);
             System.out.println("DEBUG FILTER: Token Valid? " + isValid);
 
@@ -41,13 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String username = jwtUtils.getUsernameFromJwtToken(token);
                 String role = jwtUtils.getRoleFromJwtToken(token);
 
-                // 🔥 DEBUG 3: Xem thông tin giải mã được
                 System.out.println("DEBUG FILTER: Username extracted = " + username);
                 System.out.println("DEBUG FILTER: Role extracted (Raw) = " + role);
 
                 if (username != null && role != null) {
-                    // ⚠️ CHỖ NÀY HAY SAI NHẤT ⚠️
-                    // Spring Security mặc định cần prefix "ROLE_"
                     String authorityString = role.startsWith("ROLE_") ? role : "ROLE_" + role;
 
                     System.out.println("DEBUG FILTER: Authority gán vào Context = " + authorityString);

@@ -18,7 +18,5 @@ public class AssessmentDTO {
     private Double totalScore;
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
-
-    // Added field to hold the list of questions
     private List<QuestionDTO> questions;
 }

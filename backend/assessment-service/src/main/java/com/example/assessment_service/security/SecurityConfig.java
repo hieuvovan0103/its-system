@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Kích hoạt @PreAuthorize
+@EnableMethodSecurity 
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // 👈 TẮT CSRF: Bắt buộc để POST/PUT hoạt động
+                .csrf(AbstractHttpConfigurer::disable) 
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/assessments").authenticated()
