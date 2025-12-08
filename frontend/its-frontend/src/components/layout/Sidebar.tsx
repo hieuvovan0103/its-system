@@ -74,7 +74,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile overlay */}
+     
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -82,13 +82,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
+      
       <aside
         className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Logo */}
+        
         <div className="flex items-center justify-between h-16 px-5 border-b border-gray-100">
           <Link to="/dashboard" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
@@ -104,7 +104,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        {/* Navigation */}
+        
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {filteredMenuItems.map((item) => {
             const Icon = item.icon;
@@ -138,7 +138,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           })}
         </nav>
 
-        {/* User role badge */}
+        
         {user && (
           <div className="px-3 py-4 border-t border-gray-100">
             <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">

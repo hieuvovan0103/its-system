@@ -21,7 +21,7 @@ export default function Settings() {
         <p className="text-gray-600 mt-1">Manage your account settings and preferences</p>
       </div>
 
-      {/* Profile Section */}
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export default function Settings() {
         </CardContent>
       </Card>
 
-      {/* Notifications */}
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -116,7 +116,7 @@ export default function Settings() {
         </CardContent>
       </Card>
 
-      {/* Preferences */}
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -155,7 +155,7 @@ export default function Settings() {
         </CardContent>
       </Card>
 
-      {/* Security */}
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

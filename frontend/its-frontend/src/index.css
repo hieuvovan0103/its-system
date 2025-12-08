@@ -17,11 +17,7 @@
   --color-error-500: #ef4444;
 }
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
+
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -34,7 +30,7 @@ body {
   min-height: 100vh;
 }
 
-/* Fix browser autofill background color */
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -45,7 +41,7 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Ensure input backgrounds stay white */
+
 input[type="email"],
 input[type="password"],
 input[type="text"] {

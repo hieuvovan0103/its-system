@@ -60,18 +60,16 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Panel - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 relative overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        {/* Content Container */}
+        
         <div className="relative z-10 flex flex-col justify-between w-full h-full px-12 xl:px-20 py-12">
-          {/* Logo */}
+    
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
               <BookOpen className="w-7 h-7 text-white" />
@@ -79,7 +77,7 @@ export default function Login() {
             <span className="text-2xl font-bold text-white">ITS Platform</span>
           </div>
 
-          {/* Main Content */}
+          
           <div className="space-y-10 my-auto">
             <div className="space-y-6">
               <h1 className="text-5xl xl:text-6xl font-bold text-white leading-tight">
@@ -110,7 +108,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Footer */}
+       
           <div>
             <p className="text-white/50 text-sm">
               © 2024 ITS Platform. All rights reserved.
@@ -119,10 +117,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Panel - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
         <div className="w-full max-w-md">
-          {/* Mobile Logo */}
+         
           <div className="lg:hidden text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-lg shadow-indigo-500/30">
               <BookOpen className="w-8 h-8 text-white" />
@@ -130,7 +127,7 @@ export default function Login() {
             <h1 className="text-2xl font-bold text-gray-900">ITS Platform</h1>
           </div>
 
-          {/* Welcome Text */}
+          
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Welcome back!</h2>
             <p className="text-gray-500 mt-2">
@@ -138,7 +135,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Error Message */}
+          
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 text-red-600 animate-shake">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -146,7 +143,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* Login Form */}
+          
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label
@@ -247,39 +244,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Demo Credentials */}
-          {/*<div className="mt-8 p-5 bg-white border-2 border-dashed border-gray-200 rounded-xl">*/}
-          {/*  <p className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">*/}
-          {/*    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />*/}
-          {/*    Quick Demo Access*/}
-          {/*  </p>*/}
-          {/*  <div className="grid grid-cols-3 gap-2">*/}
-          {/*    <button*/}
-          {/*      type="button"*/}
-          {/*      onClick={() => fillDemoCredentials("admin")}*/}
-          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-red-50 to-orange-50 text-red-700 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all border border-red-100"*/}
-          {/*    >*/}
-          {/*      Admin*/}
-          {/*    </button>*/}
-          {/*    <button*/}
-          {/*      type="button"*/}
-          {/*      onClick={() => fillDemoCredentials("instructor")}*/}
-          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 rounded-lg hover:from-blue-100 hover:to-cyan-100 transition-all border border-blue-100"*/}
-          {/*    >*/}
-          {/*      Instructor*/}
-          {/*    </button>*/}
-          {/*    <button*/}
-          {/*      type="button"*/}
-          {/*      onClick={() => fillDemoCredentials("student")}*/}
-          {/*      className="px-3 py-2.5 text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-all border border-green-100"*/}
-          {/*    >*/}
-          {/*      Student*/}
-          {/*    </button>*/}
-          {/*  </div>*/}
-          {/*  <p className="text-xs text-gray-400 mt-3 text-center">*/}
-          {/*    Click a role to auto-fill credentials*/}
-          {/*  </p>*/}
-          {/*</div>*/}
+        
         </div>
       </div>
     </div>

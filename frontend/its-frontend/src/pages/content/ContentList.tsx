@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import {
   Plus, Video, FileText, HelpCircle, Edit2, Trash2,
   ExternalLink, BookOpen, Layers, FolderPlus, Loader2,
-  AlertTriangle, RefreshCw // 🆕 Thêm Icon báo lỗi và refresh
+  AlertTriangle, RefreshCw 
 } from 'lucide-react';
 
 const contentTypeConfig: Record<ContentType, { icon: any; color: string; bgColor: string; label: string }> = {
@@ -26,13 +26,13 @@ export default function ContentList() {
   // 🆕 State lưu lỗi server
   const [serverError, setServerError] = useState<string | null>(null);
 
-  // Modal States
+
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [isContentModalOpen, setIsContentModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [editingContent, setEditingContent] = useState<Content | null>(null);
 
-  // Forms
+  
   const {
     register: regCourse,
     handleSubmit: handleCourseSubmit,

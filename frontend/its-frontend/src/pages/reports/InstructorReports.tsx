@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
-// Mock data - Replace with API calls
+
 const overviewStats = [
   {
     label: 'Total Students',
@@ -132,7 +132,6 @@ const recentSubmissions = [
   { id: 5, student: 'Hoàng Văn E', assessment: 'Python Basics Quiz', score: 72, maxScore: 100, submittedAt: '3 giờ trước', status: 'passed' },
 ];
 
-// Score distribution data for visualization
 const scoreDistribution = [
   { range: '0-20', count: 5, percentage: 3 },
   { range: '21-40', count: 12, percentage: 7 },
@@ -177,7 +176,6 @@ export default function InstructorReports() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
@@ -192,7 +190,6 @@ export default function InstructorReports() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Period Filter */}
           <div className="flex items-center bg-white border border-gray-200 rounded-xl p-1">
             {['week', 'month', 'semester'].map((period) => (
               <button
@@ -209,7 +206,6 @@ export default function InstructorReports() {
             ))}
           </div>
 
-          {/* Export Button */}
           <Button variant="outline" className="gap-2">
             <Download className="w-4 h-4" />
             Xuất báo cáo
@@ -217,7 +213,6 @@ export default function InstructorReports() {
         </div>
       </div>
 
-      {/* Overview Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {overviewStats.map((stat, index) => {
           const Icon = stat.icon;
@@ -249,9 +244,7 @@ export default function InstructorReports() {
         })}
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Assessment Performance Table */}
         <div className="xl:col-span-2">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -374,7 +367,6 @@ export default function InstructorReports() {
           </Card>
         </div>
 
-        {/* Score Distribution */}
         <div>
           <Card className="h-full">
             <CardHeader>
@@ -424,9 +416,7 @@ export default function InstructorReports() {
         </div>
       </div>
 
-      {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Students */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
@@ -469,7 +459,6 @@ export default function InstructorReports() {
           </CardContent>
         </Card>
 
-        {/* Recent Submissions */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
@@ -516,7 +505,6 @@ export default function InstructorReports() {
         </Card>
       </div>
 
-      {/* Quick Insights */}
       <Card className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         <CardContent className="py-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

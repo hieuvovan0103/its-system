@@ -69,7 +69,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
           Welcome back, {user?.name?.split(' ')[0]}!
@@ -79,7 +78,6 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -99,9 +97,9 @@ export default function Dashboard() {
         })}
       </div>
 
-      {/* Main Content Grid */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activity */}
+       
         <div className="lg:col-span-2">
           <Card>
             <div className="px-6 py-4 border-b border-gray-100">
@@ -137,7 +135,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Upcoming Deadlines */}
+        
         <div>
           <Card>
             <div className="px-6 py-4 border-b border-gray-100">
@@ -169,7 +167,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
+          
           <Card className="mt-6">
             <div className="px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>

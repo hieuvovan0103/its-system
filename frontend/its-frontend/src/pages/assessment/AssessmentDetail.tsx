@@ -23,7 +23,7 @@ import {
   Loader2
 } from 'lucide-react';
 
-// Config icon/màu sắc cho từng loại câu hỏi (nếu muốn hiển thị đẹp)
+
 const questionTypeConfig: Record<string, { icon: any; color: string; bgColor: string; label: string }> = {
   MCQ: { icon: CheckCircle2, color: 'text-blue-600', bgColor: 'bg-blue-100', label: 'Multiple Choice' },
   ESSAY: { icon: FileText, color: 'text-green-600', bgColor: 'bg-green-100', label: 'Essay' },
@@ -38,11 +38,11 @@ export default function AssessmentDetail() {
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Modal States
+
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
 
-  // State riêng cho MCQ Options để dễ binding với UI
+
   const [mcqOptions, setMcqOptions] = useState<string[]>(['', '', '', '']);
 
   const isInstructor = user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN';
@@ -52,11 +52,11 @@ export default function AssessmentDetail() {
     handleSubmit,
     reset,
     watch,
-    // ✅ ĐÃ SỬA: Thêm 'errors' vào đây để sử dụng bên dưới
+
     formState: { errors, isSubmitting },
   } = useForm<QuestionFormData>();
 
-  // Watch để render form tương ứng
+ 
   const watchedType = watch('type');
 
   useEffect(() => {
@@ -75,16 +75,16 @@ export default function AssessmentDetail() {
     }
   };
 
-  // --- OPEN MODALS ---
+ 
 
   const openCreateQuestionModal = () => {
     setEditingQuestion(null);
-    setMcqOptions(['', '', '', '']); // Reset options
+    setMcqOptions(['', '', '', '']); 
     reset({
       content: '',
       type: 'MCQ',
       score: 10,
-      correctAnswer: '0', // Default index 0 (String for radio value)
+      correctAnswer: '0', 
     });
     setIsQuestionModalOpen(true);
   };
@@ -92,10 +92,10 @@ export default function AssessmentDetail() {
   const openEditQuestionModal = (question: Question) => {
     setEditingQuestion(question);
 
-    // Map options từ backend (List<String>) vào state
+  
     if (question.type === 'MCQ' && question.options) {
       const opts = [...question.options];
-      // Đảm bảo luôn có đủ 4 ô nhập
+     
       while (opts.length < 4) opts.push('');
       setMcqOptions(opts);
     } else {
@@ -103,17 +103,16 @@ export default function AssessmentDetail() {
     }
 
     reset({
-      content: question.content || question.text, // Handle cả 2 trường hợp tên field
+      content: question.content || question.text, 
       type: question.type as any,
       score: question.score,
-      // Convert index (number) sang string cho radio input
+      
       correctAnswer: String(question.correctOptionIndex ?? 0),
     });
     setIsQuestionModalOpen(true);
   };
 
-  // --- HANDLERS ---
-
+ 
   const handleDeleteQuestion = async (questionId: number) => {
     if (!assessment || !confirm('Are you sure you want to delete this question?')) return;
 
@@ -130,16 +129,14 @@ export default function AssessmentDetail() {
     if (!assessment) return;
 
     try {
-      // Chuẩn bị payload gửi lên Backend
+      
       const payload = {
-        text: data.content, // Map content -> text (khớp DTO Backend)
+        text: data.content, 
         type: data.type,
         score: Number(data.score),
-        // Nếu là MCQ, lấy options từ state, lọc bỏ chuỗi rỗng
         options: data.type === 'MCQ' ? mcqOptions.filter(o => o.trim() !== '') : [],
-        // Convert string radio value -> number index
         correctOptionIndex: data.type === 'MCQ' ? Number(data.correctAnswer) : undefined,
-        rubric: data.type !== 'MCQ' ? data.correctAnswer : undefined // Dùng field correctAnswer tạm cho rubric nếu là essay
+        rubric: data.type !== 'MCQ' ? data.correctAnswer : undefined 
       };
 
       if (editingQuestion) {
@@ -156,10 +153,8 @@ export default function AssessmentDetail() {
     }
   };
 
-  // Helper để convert index sang ký tự (0->A, 1->B)
   const getOptionLabel = (index: number) => String.fromCharCode(65 + index);
 
-  // --- RENDER ---
 
   if (isLoading) {
     return (
@@ -181,7 +176,6 @@ export default function AssessmentDetail() {
 
   return (
       <div className="space-y-6">
-        {/* Header Section */}
         <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div className="flex items-start gap-4">
@@ -230,117 +224,7 @@ export default function AssessmentDetail() {
           </div>
         </div>
 
-        {/* Questions List Section */}
-        {/*<div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">*/}
-        {/*  <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">*/}
-        {/*    <h2 className="text-lg font-bold text-gray-900">*/}
-        {/*      Questions ({assessment.questions?.length || 0})*/}
-        {/*    </h2>*/}
-        {/*    {isInstructor && (*/}
-        {/*        <Button size="sm" onClick={openCreateQuestionModal}>*/}
-        {/*          <Plus className="w-4 h-4 mr-2" /> Add Question*/}
-        {/*        </Button>*/}
-        {/*    )}*/}
-        {/*  </div>*/}
-
-        {/*  <div className="divide-y divide-gray-100">*/}
-        {/*    {assessment.questions?.length === 0 ? (*/}
-        {/*        <div className="text-center py-12">*/}
-        {/*          <HelpCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />*/}
-        {/*          <h3 className="text-lg font-medium text-gray-900 mb-2">No questions added yet</h3>*/}
-        {/*          {isInstructor && (*/}
-        {/*              <Button variant="outline" onClick={openCreateQuestionModal}>*/}
-        {/*                Add your first question*/}
-        {/*              </Button>*/}
-        {/*          )}*/}
-        {/*        </div>*/}
-        {/*    ) : (*/}
-        {/*        assessment.questions?.map((question, index) => {*/}
-        {/*          const config = questionTypeConfig[question.type || 'MCQ']; // Fallback to MCQ*/}
-        {/*          const Icon = config?.icon || HelpCircle;*/}
-
-        {/*          return (*/}
-        {/*              <div key={question.id} className="p-6 hover:bg-gray-50 transition-colors group relative">*/}
-        {/*                /!* Question Header *!/*/}
-        {/*                <div className="flex items-start gap-4 mb-3">*/}
-        {/*            <span className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-sm font-bold text-gray-600">*/}
-        {/*              {index + 1}*/}
-        {/*            </span>*/}
-        {/*                  <div className="flex-1">*/}
-        {/*                    <div className="flex items-center gap-3 mb-2">*/}
-        {/*                <span className={`px-2 py-0.5 rounded text-xs font-medium flex items-center gap-1 ${config?.bgColor} ${config?.color}`}>*/}
-        {/*                  <Icon className="w-3 h-3" /> {config?.label}*/}
-        {/*                </span>*/}
-        {/*                      <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2 py-0.5 rounded">*/}
-        {/*                  {question.score} pts*/}
-        {/*                </span>*/}
-        {/*                    </div>*/}
-        {/*                    <h3 className="text-gray-900 font-medium text-lg">{question.text || question.content}</h3>*/}
-        {/*                  </div>*/}
-
-        {/*                  /!* Instructor Actions *!/*/}
-        {/*                  {isInstructor && (*/}
-        {/*                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity absolute top-6 right-6">*/}
-        {/*                        <button*/}
-        {/*                            onClick={() => openEditQuestionModal(question)}*/}
-        {/*                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"*/}
-        {/*                        >*/}
-        {/*                          <Edit2 className="w-4 h-4" />*/}
-        {/*                        </button>*/}
-        {/*                        <button*/}
-        {/*                            onClick={() => handleDeleteQuestion(question.id)}*/}
-        {/*                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"*/}
-        {/*                        >*/}
-        {/*                          <Trash2 className="w-4 h-4" />*/}
-        {/*                        </button>*/}
-        {/*                      </div>*/}
-        {/*                  )}*/}
-        {/*                </div>*/}
-
-        {/*                /!* Question Content/Options *!/*/}
-        {/*                <div className="pl-12">*/}
-        {/*                  {question.type === 'MCQ' && question.options && (*/}
-        {/*                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">*/}
-        {/*                        {question.options.map((opt, idx) => (*/}
-        {/*                            <div*/}
-        {/*                                key={idx}*/}
-        {/*                                className={`p-3 rounded-lg border text-sm flex items-center gap-3 ${*/}
-        {/*                                    // Highlight đáp án đúng cho giáo viên*/}
-        {/*                                    isInstructor && idx === question.correctOptionIndex*/}
-        {/*                                        ? 'bg-green-50 border-green-200 text-green-800 font-medium'*/}
-        {/*                                        : 'bg-white border-gray-200 text-gray-700'*/}
-        {/*                                }`}*/}
-        {/*                            >*/}
-        {/*                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs border ${*/}
-        {/*                        isInstructor && idx === question.correctOptionIndex*/}
-        {/*                            ? 'border-green-500 bg-green-500 text-white'*/}
-        {/*                            : 'border-gray-300 text-gray-500'*/}
-        {/*                    }`}>*/}
-        {/*                      {getOptionLabel(idx)}*/}
-        {/*                    </span>*/}
-        {/*                              {opt}*/}
-        {/*                              {isInstructor && idx === question.correctOptionIndex && (*/}
-        {/*                                  <CheckCircle2 className="w-4 h-4 text-green-600 ml-auto" />*/}
-        {/*                              )}*/}
-        {/*                            </div>*/}
-        {/*                        ))}*/}
-        {/*                      </div>*/}
-        {/*                  )}*/}
-
-        {/*                  {(question.type === 'ESSAY' || question.type === 'CODING') && (*/}
-        {/*                      <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 border-dashed text-sm text-gray-500 italic">*/}
-        {/*                        {question.type === 'CODING' ? 'Students will write code here.' : 'Students will write an essay here.'}*/}
-        {/*                      </div>*/}
-        {/*                  )}*/}
-        {/*                </div>*/}
-        {/*              </div>*/}
-        {/*          );*/}
-        {/*        })*/}
-        {/*    )}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        {/* Create/Edit Question Modal */}
+        
         <Modal
             isOpen={isQuestionModalOpen}
             onClose={() => setIsQuestionModalOpen(false)}
@@ -390,7 +274,6 @@ export default function AssessmentDetail() {
               )}
             </div>
 
-            {/* MCQ Options Fields */}
             {watchedType === 'MCQ' && (
                 <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-4">
                   <label className="block text-sm font-bold text-gray-700">Answer Options</label>

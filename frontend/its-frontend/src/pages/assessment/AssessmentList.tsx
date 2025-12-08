@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { assessmentService } from '@/services/assessmentService';
 import type { Assessment, AssessmentFormData, AssessmentType } from '@/types';
 import { useAuth } from '@/contexts/AuthContext';
-import Button from '@/components/ui/Button'; // Đảm bảo bạn có component này
-import Modal from '@/components/ui/Modal';   // Đảm bảo bạn có component này
+import Button from '@/components/ui/Button'; 
+import Modal from '@/components/ui/Modal';   
 import { useForm } from 'react-hook-form';
 import {
   Plus,
@@ -18,11 +18,11 @@ import {
   Sparkles,
   Calendar,
   AlertCircle,
-  Eye,       // Thêm Icon
-  Users,     // Thêm Icon
-  Edit2,     // Thêm Icon
-  Trash2,    // Thêm Icon
-  Play       // Thêm Icon
+  Eye,       
+  Users,     
+  Edit2,     
+  Trash2,    
+  Play      
 } from 'lucide-react';
 
 const assessmentTypeConfig: Record<AssessmentType, {
@@ -101,7 +101,7 @@ export default function AssessmentList() {
       title: '',
       description: '',
       type: 'QUIZ',
-      courseId: 1, // TODO: Nên cho phép chọn Course từ dropdown
+      courseId: 1, 
       dueDate: '',
     });
     setIsModalOpen(true);
@@ -134,10 +134,8 @@ export default function AssessmentList() {
 
   const onSubmit = async (data: AssessmentFormData) => {
     try {
-      // Convert dueDate string to ISO format if needed or send as is
       const payload = {
         ...data,
-        // Nếu backend cần ISO date time
         dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined
       };
 
@@ -181,7 +179,6 @@ export default function AssessmentList() {
 
   return (
       <div className="space-y-8">
-        {/* Hero Header */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-8">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
@@ -213,7 +210,6 @@ export default function AssessmentList() {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3">
@@ -264,10 +260,8 @@ export default function AssessmentList() {
           </div>
         </div>
 
-        {/* Search and Filter */}
         <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -287,7 +281,6 @@ export default function AssessmentList() {
               )}
             </div>
 
-            {/* Type Filter Buttons */}
             <div className="flex items-center gap-2">
               <button
                   onClick={() => setFilterType('ALL')}
@@ -319,7 +312,6 @@ export default function AssessmentList() {
           </div>
         </div>
 
-        {/* Assessment List */}
         {isLoading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
@@ -490,7 +482,6 @@ export default function AssessmentList() {
             </div>
         )}
 
-        {/* Create/Edit Modal */}
         <Modal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
