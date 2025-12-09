@@ -104,7 +104,10 @@ public class AssessmentController {
             @RequestBody SubmissionDTO submissionDto,
             @RequestHeader("Authorization") String token) {
 
-        Long studentId = 3L; // Hardcode test
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("CONTROLLER PASSED SECURITY! User: " + auth.getName() + " | Auth: " + auth.getAuthorities());
+
+        Long studentId = 3L;
 
         Submission submission = new Submission();
         submission.setAssessmentId(id);
