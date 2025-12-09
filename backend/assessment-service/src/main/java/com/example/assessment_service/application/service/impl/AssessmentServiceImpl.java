@@ -10,10 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Implementation of IAssessmentService
- * Following the pattern from content-management-service
- */
 @Service
 @RequiredArgsConstructor
 public class AssessmentServiceImpl implements IAssessmentService {
@@ -24,7 +20,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
     private final AnswerRepository answerRepository;
     private final GradeRepository gradeRepository;
 
-    // ========== Assessment CRUD ==========
 
     @Override
     public Assessment createAssessment(Assessment assessment) {
@@ -64,8 +59,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
         assessmentRepository.deleteById(id);
     }
 
-    // ========== Question Management ==========
-
     @Override
     @Transactional
     public Question addQuestion(Long assessmentId, Question question) {
@@ -73,7 +66,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
         question.setAssessment(assessment);
         Question savedQuestion = questionRepository.save(question);
 
-        // Recalculate total score
         assessment.recalculateTotalScore();
         assessmentRepository.save(assessment);
 
@@ -102,7 +94,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
 
         Question updated = questionRepository.save(existing);
 
-        // Recalculate total score if score changed
         if (!oldScore.equals(question.getScore())) {
             Assessment assessment = existing.getAssessment();
             assessment.recalculateTotalScore();
@@ -132,30 +123,21 @@ public class AssessmentServiceImpl implements IAssessmentService {
         return questionRepository.findByAssessmentId(assessmentId);
     }
 
-    // ========== Submission Management ==========
-
     @Override
     @Transactional
     public Submission submitAssessment(Submission submission) {
-        // Get the assessment to validate and auto-grade MCQ
         Assessment assessment = getAssessmentById(submission.getAssessmentId());
 
-        // Build a map of questions for quick lookup
         Map<Long, Question> questionMap = assessment.getQuestions().stream()
                 .collect(java.util.stream.Collectors.toMap(Question::getId, q -> q));
 
-        // Auto-grade MCQ questions
         for (Answer answer : submission.getAnswers()) {
             answer.setSubmission(submission);
-
-            // Find the question and auto-grade if MCQ
             Question question = questionMap.get(answer.getQuestionId());
             if (question != null && question.getType() == QuestionType.MCQ) {
                 answer.evaluate(question);
             }
         }
-
-        // Set status to SUBMITTED
         submission.submit();
 
         return submissionRepository.save(submission);
@@ -177,7 +159,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
         return submissionRepository.findByStudentIdOrderBySubmittedAtDesc(studentId);
     }
 
-    // ========== Grading ==========
 
     @Override
     @Transactional
@@ -185,10 +166,8 @@ public class AssessmentServiceImpl implements IAssessmentService {
         Submission submission = getSubmissionById(submissionId);
         Assessment assessment = getAssessmentById(submission.getAssessmentId());
 
-        // Calculate total score from answers
         Double totalScore = submission.calculateTotalScore();
 
-        // Create or update grade
         Grade grade = gradeRepository.findBySubmissionId(submissionId)
                 .orElse(new Grade());
 
@@ -200,7 +179,6 @@ public class AssessmentServiceImpl implements IAssessmentService {
 
         Grade savedGrade = gradeRepository.save(grade);
 
-        // Update submission status
         submission.setStatus(SubmissionStatus.GRADED);
         submission.setGrade(savedGrade);
         submissionRepository.save(submission);

@@ -12,9 +12,7 @@ import java.util.List;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
-    // Find answers by submission
     List<Answer> findBySubmissionId(Long submissionId);
 
-    // Find answer by submission and question
     Answer findBySubmissionIdAndQuestionId(Long submissionId, Long questionId);
 }

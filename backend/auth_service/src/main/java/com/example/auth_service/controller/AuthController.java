@@ -14,7 +14,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // POST: http://localhost:8083/api/v1/auth/register
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
         try {
@@ -25,7 +24,6 @@ public class AuthController {
         }
     }
 
-    // POST: http://localhost:8083/api/v1/auth/login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {

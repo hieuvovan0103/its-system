@@ -12,6 +12,5 @@ import java.util.Optional;
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Long> {
 
-    // Find grade by submission
     Optional<Grade> findBySubmissionId(Long submissionId);
 }

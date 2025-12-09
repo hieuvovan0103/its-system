@@ -13,12 +13,9 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    // Find questions by assessment
     List<Question> findByAssessmentId(Long assessmentId);
 
-    // Find questions by type
     List<Question> findByType(QuestionType type);
 
-    // Find questions by assessment and type
     List<Question> findByAssessmentIdAndType(Long assessmentId, QuestionType type);
 }
