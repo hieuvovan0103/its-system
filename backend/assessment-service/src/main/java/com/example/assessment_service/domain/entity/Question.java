@@ -32,21 +32,17 @@ public class Question {
     @Column(nullable = false)
     private Double score;
 
-    // For MCQ questions - stored as JSON array
     @ElementCollection
     @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "option_text")
     private List<String> options;
 
-    // For MCQ questions - index of correct answer
     @Column(name = "correct_option_index")
     private Integer correctOptionIndex;
 
-    // For Essay questions
     @Column(name = "max_length_answer")
     private Integer maxLengthAnswer;
 
-    // For Essay questions - grading rubric
     @Column(columnDefinition = "TEXT")
     private String rubric;
 
@@ -63,7 +59,6 @@ public class Question {
         if (type == QuestionType.MCQ && correctOptionIndex != null && selectedOptionIndex != null) {
             return correctOptionIndex.equals(selectedOptionIndex) ? score : 0.0;
         }
-        // For Essay and Coding, manual grading is needed
         return 0.0;
     }
 }

@@ -31,17 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtUtils.validateJwtToken(token)) {
                 String username = jwtUtils.getUsernameFromJwtToken(token);
-                String rawRole = jwtUtils.getRoleFromJwtToken(token); // Lấy chuỗi thô
+                String rawRole = jwtUtils.getRoleFromJwtToken(token);
 
                 if (username != null && rawRole != null) {
-                    // 1. Chuẩn hóa: Chuyển hết về chữ in hoa để tránh lỗi case-sensitive
                     String upperRole = rawRole.toUpperCase();
-
-                    // 2. Xử lý tiền tố: Nếu chưa có "ROLE_" thì thêm, có rồi thì thôi
                     String finalRole = upperRole.startsWith("ROLE_") ? upperRole : "ROLE_" + upperRole;
-
-                    // DEBUG: In ra để xem chính xác nó đang là cái gì (Quan trọng để check log)
-                    System.out.println("DEBUG SECURITY - User: " + username + " | Final Authority: " + finalRole);
 
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(finalRole);
 

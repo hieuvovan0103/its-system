@@ -24,14 +24,13 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    // --- ĐĂNG KÝ ---
     public String register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Error: Email is already in use!");
         }
 
         User user = new User();
-        user.setEmail(request.getEmail()); // Chỉ set Email
+        user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         try {
@@ -45,21 +44,16 @@ public class AuthService {
         return "User registered successfully!";
     }
 
-    // --- ĐĂNG NHẬP ---
     public LoginResponse login(LoginRequest request) {
-        // 1. Xác thực (Spring Security sẽ gọi loadUserByUsername ở bước 5)
-        // Chúng ta truyền Email vào vị trí của principal
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 2. Tìm user để lấy Role (Tìm bằng Email)
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 3. Sinh Token (Subject của token bây giờ là Email)
         String jwt = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
 
         return new LoginResponse(jwt, "Bearer", user.getEmail(), user.getRole().name());

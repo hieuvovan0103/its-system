@@ -14,15 +14,11 @@ import java.util.List;
 @Repository
 public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
-    // Find assessments by course
     List<Assessment> findByCourseId(Long courseId);
 
-    // Find assessments by type
     List<Assessment> findByType(AssessmentType type);
 
-    // Find assessments by title containing keyword
     List<Assessment> findByTitleContainingIgnoreCase(String keyword);
 
-    // Find assessments by course and type
     List<Assessment> findByCourseIdAndType(Long courseId, AssessmentType type);
 }

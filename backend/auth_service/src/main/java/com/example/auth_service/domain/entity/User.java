@@ -15,9 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ❌ ĐÃ XÓA: private String username;
-
-    @Column(nullable = false, unique = true) // Email giờ là duy nhất
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
