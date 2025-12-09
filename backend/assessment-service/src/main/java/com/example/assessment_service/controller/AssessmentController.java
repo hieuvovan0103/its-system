@@ -109,23 +109,17 @@ public class AssessmentController {
         return ResponseEntity.noContent().build();
     }
 
-    // ==================== STUDENT API ====================
-
-    // 8. Nộp bài thi
     @PostMapping("/{id}/submit")
-    //@PreAuthorize("hasRole('STUDENT')") // ✅ ĐÃ SỬA: Dùng hasRole để khớp với logic Filter mới
+    //@PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<GradeDTO> submit(
             @PathVariable Long id,
             @RequestBody SubmissionDTO submissionDto,
             @RequestHeader("Authorization") String token) {
 
-        // --- DEBUG LOGGING START (Xóa sau khi chạy OK) ---
-        // Trong hàm submit()
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("✅ CONTROLLER PASSED SECURITY! User: " + auth.getName() + " | Auth: " + auth.getAuthorities());
-        // --- DEBUG LOGGING END ---
+        System.out.println("CONTROLLER PASSED SECURITY! User: " + auth.getName() + " | Auth: " + auth.getAuthorities());
 
-        Long studentId = 3L; // Hardcode test
+        Long studentId = 3L;
 
         Submission submission = new Submission();
         submission.setAssessmentId(id);
@@ -151,8 +145,6 @@ public class AssessmentController {
 
         return ResponseEntity.ok(mapToGradeDTO(grade));
     }
-
-    // ==================== MAPPERS ====================
 
     private AssessmentDTO mapToAssessmentDTO(Assessment entity) {
         AssessmentDTO dto = new AssessmentDTO();
