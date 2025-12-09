@@ -2,26 +2,26 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-// Layout
+
 import Layout from "@/components/layout/Layout";
 
-// Auth pages
+
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 
-// Main pages
+
 import Dashboard from "@/pages/Dashboard";
 import Settings from "@/pages/Settings";
 
-// Content pages
+
 import ContentList from "@/pages/content/ContentList";
 
-// Assessment pages
+
 import AssessmentList from "@/pages/assessment/AssessmentList";
 import AssessmentDetail from "@/pages/assessment/AssessmentDetail";
 import TakeAssessment from "@/pages/assessment/TakeAssessment";
 
-// Report pages
+
 import InstructorReports from "@/pages/reports/InstructorReports";
 
 const queryClient = new QueryClient({
@@ -80,7 +80,7 @@ export default function App() {
   );
 }
 
-// Placeholder component for routes not yet implemented
+
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div className="flex items-center justify-center min-h-[60vh]">

@@ -18,7 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session
+    
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 

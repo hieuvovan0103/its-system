@@ -129,7 +129,6 @@ export default function TakeAssessment() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
@@ -163,7 +162,6 @@ export default function TakeAssessment() {
         </div>
       </div>
 
-      {/* Progress Bar */}
       <Card>
         <CardContent>
           <div className="flex items-center justify-between mb-3">
@@ -180,7 +178,6 @@ export default function TakeAssessment() {
               style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }}
             />
           </div>
-          {/* Question indicators */}
           <div className="flex gap-2 mt-4 flex-wrap">
             {assessment.questions.map((q, index) => (
               <button
@@ -201,7 +198,6 @@ export default function TakeAssessment() {
         </CardContent>
       </Card>
 
-      {/* Question */}
       {currentQuestion && (
         <Card>
           <CardContent className="py-8">
@@ -216,7 +212,6 @@ export default function TakeAssessment() {
               {currentQuestion.text}
             </h2>
 
-            {/* MCQ Options */}
             {currentQuestion.type === 'MCQ' && currentQuestion.options && (
               <div className="space-y-3">
                 {currentQuestion.options.map((option, index) => {
@@ -252,7 +247,6 @@ export default function TakeAssessment() {
               </div>
             )}
 
-            {/* Essay Answer */}
             {currentQuestion.type === 'ESSAY' && (
               <textarea
                 value={answers.get(currentQuestion.id)?.content || ''}
@@ -263,7 +257,6 @@ export default function TakeAssessment() {
               />
             )}
 
-            {/* Coding Answer */}
             {currentQuestion.type === 'CODING' && (
               <textarea
                 value={answers.get(currentQuestion.id)?.content || ''}
@@ -277,7 +270,6 @@ export default function TakeAssessment() {
         </Card>
       )}
 
-      {/* Navigation */}
       <div className="flex items-center justify-between">
         <Button
           variant="outline"

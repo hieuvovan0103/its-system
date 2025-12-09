@@ -61,18 +61,18 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Panel - Branding */}
+      
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-500 relative overflow-hidden">
-        {/* Background Pattern */}
+        
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        {/* Content Container */}
+        
         <div className="relative z-10 flex flex-col justify-between w-full h-full px-12 xl:px-20 py-12">
-          {/* Logo */}
+         
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
               <BookOpen className="w-7 h-7 text-white" />
@@ -80,7 +80,7 @@ export default function Register() {
             <span className="text-2xl font-bold text-white">ITS Platform</span>
           </div>
 
-          {/* Main Content */}
+          
           <div className="space-y-10 my-auto">
             <div className="space-y-6">
               <h1 className="text-5xl xl:text-6xl font-bold text-white leading-tight">
@@ -111,7 +111,7 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Footer */}
+         
           <div>
             <p className="text-white/50 text-sm">
               © 2024 ITS Platform. All rights reserved.
@@ -120,10 +120,10 @@ export default function Register() {
         </div>
       </div>
 
-      {/* Right Panel - Register Form */}
+     
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50 overflow-y-auto">
         <div className="w-full max-w-md py-8">
-          {/* Mobile Logo */}
+         
           <div className="lg:hidden text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl mb-4 shadow-lg shadow-emerald-500/30">
               <BookOpen className="w-8 h-8 text-white" />
@@ -147,7 +147,7 @@ export default function Register() {
 
           {/* Register Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Full Name */}
+           
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                 Full Name
@@ -174,7 +174,7 @@ export default function Register() {
               )}
             </div>
 
-            {/* Email */}
+           
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                 Email Address
@@ -201,7 +201,7 @@ export default function Register() {
               )}
             </div>
 
-            {/* Account Type */}
+           
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-3">
                 Account Type
@@ -251,7 +251,7 @@ export default function Register() {
               )}
             </div>
 
-            {/* Password */}
+           
             <div>
               <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                 Password
@@ -287,7 +287,7 @@ export default function Register() {
               )}
             </div>
 
-            {/* Confirm Password */}
+           
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
                 Confirm Password
@@ -349,7 +349,7 @@ export default function Register() {
             </p>
           </div>
 
-          {/* Terms */}
+         
           <p className="mt-6 text-xs text-gray-400 text-center">
             By creating an account, you agree to our{' '}
             <a href="#" className="text-emerald-600 hover:underline">Terms of Service</a>

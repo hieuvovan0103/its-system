@@ -31,7 +31,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   return (
     <header className="sticky top-0 z-30 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <div className="h-full px-4 lg:px-6 flex items-center justify-between gap-4">
-        {/* Left section - Mobile menu button */}
+        
         <div className="flex items-center gap-4">
           <button
             onClick={onMenuClick}
@@ -41,15 +41,15 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           </button>
         </div>
 
-        {/* Right section */}
+        
         <div className="flex items-center gap-2">
-          {/* Notifications */}
+          
           <button className="relative p-2.5 hover:bg-gray-100 rounded-xl transition-colors">
             <Bell className="w-5 h-5 text-gray-500" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
           </button>
 
-          {/* User dropdown */}
+          
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -65,7 +65,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               <ChevronDown className={`hidden md:block w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* Dropdown menu */}
+            
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="px-4 py-3 border-b border-gray-100">

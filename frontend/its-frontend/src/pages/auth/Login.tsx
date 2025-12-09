@@ -60,18 +60,16 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Panel - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 relative overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        {/* Content Container */}
+        
         <div className="relative z-10 flex flex-col justify-between w-full h-full px-12 xl:px-20 py-12">
-          {/* Logo */}
+    
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
               <BookOpen className="w-7 h-7 text-white" />
@@ -79,7 +77,7 @@ export default function Login() {
             <span className="text-2xl font-bold text-white">ITS Platform</span>
           </div>
 
-          {/* Main Content */}
+          
           <div className="space-y-10 my-auto">
             <div className="space-y-6">
               <h1 className="text-5xl xl:text-6xl font-bold text-white leading-tight">
@@ -110,7 +108,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Footer */}
+       
           <div>
             <p className="text-white/50 text-sm">
               © 2024 ITS Platform. All rights reserved.
@@ -119,10 +117,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Panel - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
         <div className="w-full max-w-md">
-          {/* Mobile Logo */}
+         
           <div className="lg:hidden text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-lg shadow-indigo-500/30">
               <BookOpen className="w-8 h-8 text-white" />
@@ -130,7 +127,7 @@ export default function Login() {
             <h1 className="text-2xl font-bold text-gray-900">ITS Platform</h1>
           </div>
 
-          {/* Welcome Text */}
+          
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Welcome back!</h2>
             <p className="text-gray-500 mt-2">
@@ -138,7 +135,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Error Message */}
+          
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 text-red-600 animate-shake">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -146,7 +143,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* Login Form */}
+          
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label
@@ -280,6 +277,7 @@ export default function Login() {
           {/*    Click a role to auto-fill credentials*/}
           {/*  </p>*/}
           {/*</div>*/}
+        
         </div>
       </div>
     </div>
